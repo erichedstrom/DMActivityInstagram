@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) UIImage *shareImage;
 @property (nonatomic, strong) NSString *shareString;
-@property (nonatomic, strong) NSArray *backgroundColors;
 @property (readwrite) BOOL includeURL;
 
 @property (nonatomic, strong) UIBarButtonItem *presentFromButton;

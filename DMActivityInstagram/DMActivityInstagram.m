@@ -55,11 +55,10 @@
 - (UIViewController *)activityViewController {
     // resize controller if resize is required.
     if (!self.resizeController) {
-        self.resizeController = [[DMResizerViewController alloc] initWithImage:self.shareImage andDelegate:self];
-        
-        if ([self imageIsSquare:self.shareImage]) {
-            self.resizeController.skipCropping = YES;
-        }
+        self.resizeController = [[DMResizerViewController alloc] initWithImage:self.shareImage];
+        self.resizeController.delegate = self;
+
+        self.resizeController.skipCropping = YES;
     }
     return self.resizeController;
 }
@@ -109,11 +108,17 @@
     [self.documentController setUTI:@"com.instagram.exclusivegram"];
     if (self.shareString) [self.documentController setAnnotation:@{@"InstagramCaption" : self.shareString}];
     
-    if (![self.documentController presentOpenInMenuFromBarButtonItem:self.presentFromButton animated:YES]) NSLog(@"couldn't present document interaction controller");
+    if (![self.documentController presentOpenInMenuFromBarButtonItem:self.presentFromButton animated:YES]) {
+      NSLog(@"couldn't present document interaction controller");
+    }
 }
 
 -(void)documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application {
     [self activityDidFinish:YES];
+}
+
+-(void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+  [self activityDidFinish:NO];
 }
 
 -(BOOL)imageIsLargeEnough:(UIImage *)image {
