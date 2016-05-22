@@ -63,15 +63,10 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     if (self.skipCropping) [self doneButtonAction];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -98,9 +93,9 @@
     CGFloat screenWidth = self.scrollView.bounds.size.width * 2; //screenScale;
     CGFloat screenHeight = self.scrollView.bounds.size.height * 2;//screenScale;
     
-    CGFloat imageRatio = 1;
-    CGFloat imageWidthToScale = 1;
-    CGFloat imageHeightToScale = 1;
+    CGFloat imageRatio;
+    CGFloat imageWidthToScale;
+    CGFloat imageHeightToScale;
     CGFloat extraXOffset = 0;
     CGFloat extraYOffset = 0;
     
@@ -119,7 +114,7 @@
     }
     
     CGRect drawingRect = (CGRect){
-        .origin.x = ((extraXOffset) - self.scrollView.contentOffset.x*2)-320, // the 320 here is to compensate for CGGRaphics context being offset for rotation around the center axis.
+        .origin.x = ((extraXOffset) - self.scrollView.contentOffset.x*2)-320, // the 320 here is to compensate for CGGraphics context being offset for rotation around the center axis.
         .origin.y = ((extraYOffset) - self.scrollView.contentOffset.y*2)-320,
         .size.width = imageWidthToScale * zoomScale,
         .size.height = imageHeightToScale * zoomScale
@@ -154,11 +149,11 @@
 - (void)scrollViewDidZoom:(UIScrollView *)aScrollView {
     // fixed centering when smaller than orig.
     CGFloat offsetX = (self.scrollView.bounds.size.width > self.scrollView.contentSize.width)?
-    (self.scrollView.bounds.size.width - self.scrollView.contentSize.width) * 0.5 : 0.0;
+    (self.scrollView.bounds.size.width - self.scrollView.contentSize.width) * 0.5f : 0.0f;
     CGFloat offsetY = (self.scrollView.bounds.size.height > self.scrollView.contentSize.height)?
-    (self.scrollView.bounds.size.height - self.scrollView.contentSize.height) * 0.5 : 0.0;
-    self.imageView.center = CGPointMake(self.scrollView.contentSize.width * 0.5 + offsetX,
-                                   self.scrollView.contentSize.height * 0.5 + offsetY);
+    (self.scrollView.bounds.size.height - self.scrollView.contentSize.height) * 0.5f : 0.0f;
+    self.imageView.center = CGPointMake(self.scrollView.contentSize.width * 0.5f + offsetX,
+                                   self.scrollView.contentSize.height * 0.5f + offsetY);
 }
 
 -(IBAction)cancelButtonAction {
@@ -169,7 +164,7 @@
 -(void)rotateButtonAction {
     //NSLog(@"Rotate image 90 degrees.");
     rotation += M_PI/2;
-    self.scrollView.transform = CGAffineTransformRotate(self.scrollView.transform, M_PI/2);
+    self.scrollView.transform = CGAffineTransformRotate(self.scrollView.transform, (CGFloat) (M_PI/2));
 }
 
 

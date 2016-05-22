@@ -28,10 +28,10 @@
     NSURL *instagramURL = [NSURL URLWithString:@"instagram://app"];
     if (![[UIApplication sharedApplication] canOpenURL:instagramURL]) return NO; // no instagram.
     
-    for (UIActivityItemProvider *item in activityItems) {
+    for (id item in activityItems) {
         if ([item isKindOfClass:[UIImage class]]) {
             if ([self imageIsLargeEnough:(UIImage *)item]) return YES; // has image, of sufficient size.
-            else NSLog(@"DMActivityInstagam: image too small %@",item);
+            else NSLog(@"DMActivityInstagram: image too small %@",item);
         }
     }
     return NO;
@@ -125,11 +125,6 @@
 -(BOOL)imageIsLargeEnough:(UIImage *)image {
     CGSize imageSize = [image size];
     return ((imageSize.height * image.scale) >= 612 && (imageSize.width * image.scale) >= 612);
-}
-
--(BOOL)imageIsSquare:(UIImage *)image {
-    CGSize imageSize = image.size;
-    return (imageSize.height == imageSize.width);
 }
 
 -(void)activityDidFinish:(BOOL)success {
