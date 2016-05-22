@@ -113,7 +113,8 @@
     }
 }
 
--(void)documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application {
+
+- (void)documentInteractionController:(UIDocumentInteractionController *)controller didEndSendingToApplication:(NSString *)application {
     [self activityDidFinish:YES];
 }
 
@@ -131,6 +132,13 @@
     return (imageSize.height == imageSize.width);
 }
 
-
+-(void)activityDidFinish:(BOOL)success {
+    NSError *error = nil;
+    NSString *writePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"instagram.igo"];
+    if (![[NSFileManager defaultManager] removeItemAtPath:writePath error:&error]) {
+        NSLog(@"Error cleaning up temporary image file: %@", error);
+    }
+    [super activityDidFinish:success];
+}
 
 @end
